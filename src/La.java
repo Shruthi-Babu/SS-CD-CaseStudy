@@ -24,9 +24,9 @@ public class La {
 			"default", "do", "double", "else", "extends", "final", "finally", "float", "for", "if", "implements",
 			"import", "instanceof", "int", "interface", "long", "native", "new", "package", "private", "protected",
 			"public", "return", "short", "static", "super", "switch", "synchronized", "this", "throw", "throws",
-			"transient", "try", "void", "volatile", "while", "false", "true", "null" };
+			"transient", "try", "void", "volatile", "while", "false", "true", "null", "printf" };
+	
 	HashMap<String, Integer> keywordsTable = new HashMap<>();
-
 	HashMap<String, Integer> otherWords = new HashMap<>();
 
 	public La(String fileName) throws IOException
@@ -35,7 +35,7 @@ public class La {
 		{
 			keywordsTable.put(keywords[i], 0);
 		}
-				//removes comments 
+		//removes comments 
 		Scanner kb = null;
 		try 
 		{
@@ -78,26 +78,48 @@ public class La {
 
 
 			line = kb.nextLine();
+			String c= stringContainsItemFromList(line, keywords);
+			if(c!=null)
+				{
+				System.out.println(c);
+				keywordsTable.put(c, keywordsTable.get(c)+1);
+				}
+			//String[] lineparts = line.split(" ");
+			
 
-			String[] lineparts = line.split(" ");
-
-			for (String x : lineparts) {
-					
-			if(keywordsTable.containsKey(x)) {
-				keywordsTable.put(x, keywordsTable.get(x)+1);
-			}
-			else
-				otherWords.put(x, otherWords.getOrDefault(x, 0)+1);
-		}
+//			for (String x : lineparts) {
+//					
+//			if(keywordsTable.containsKey(x))
+//			{
+//				keywordsTable.put(x, keywordsTable.get(x)+1);
+//			}
+//			else
+//				otherWords.put(x, otherWords.getOrDefault(x, 0)+1);
+//		}
+		
 		}
 		System.out.println("Keywords:");
 		printMap(keywordsTable);
 		System.out.println();
 		System.out.println("Other Words:");
-		printMap(otherWords);
-
-	
+		//printMap(otherWords);	
 	}
+	
+	public static String stringContainsItemFromList(String inputStr, String[] items)
+	{
+	    for(int i =0; i < items.length; i++)
+	    {
+	        if(inputStr.contains(items[i]))
+	        {
+	            return items[i];
+	        }
+	    }
+	    return null;
+	}
+	
+	
+	
+	
 	public static String ParseCode(String pCode)
 	{
 		String MyCommentsRegex= "/\\*([^*]|[\r\n]|(\\*+([^*/]|[\r\n])))*\\*+/|//.*";
@@ -137,7 +159,7 @@ public class La {
 
 	public static void main(String[] args) throws IOException {
 // TODO Auto-generated method stub
-		new La("textfile.txt");
+		new La("question.c");
 	}
 
 }
