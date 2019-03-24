@@ -1,5 +1,8 @@
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,25 +29,55 @@ public class La {
 
 	HashMap<String, Integer> otherWords = new HashMap<>();
 
-	public La(String fileName) {
-
+	public La(String fileName) throws IOException
+	{
+		for (int i = 0; i < 47; i++) 
+		{
+			keywordsTable.put(keywords[i], 0);
+		}
+				//removes comments 
 		Scanner kb = null;
-
-		try {
+		try 
+		{
 			kb = new Scanner(new File(fileName));
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		
+		String line="";
+		int count=0;
+		while(kb.hasNextLine())
+		{
+			count++;
+			line+= kb.nextLine()+ "\n";
+		}
+
+		String modified= ParseCode(line);
+		Write(modified);	
+		System.out.println(modified);
+
+		System.out.println("\nSingle and multiline comments removed.");
+		System.out.println("Number of lines parsed: "+ count+ "\n");	
+
+
+		//further parsing
+		try 
+		{
+			kb = new Scanner(new File("SourceCode.txt"));
+		}
+		catch (FileNotFoundException e)
+		{
 			e.printStackTrace();
 		}
 
-		
-		for (int i = 0; i < 47; i++) {
-			keywordsTable.put(keywords[i], 0);
-		}
-
-		while (kb.hasNextLine()) {
+		line="";
+		while (kb.hasNextLine()) 
+		{
 
 
-			String line = kb.nextLine();
+			line = kb.nextLine();
 
 			String[] lineparts = line.split(" ");
 
@@ -65,6 +98,27 @@ public class La {
 
 	
 	}
+	public static String ParseCode(String pCode)
+	{
+		String MyCommentsRegex= "/\\*([^*]|[\r\n]|(\\*+([^*/]|[\r\n])))*\\*+/|//.*";
+	    return pCode.replaceAll(MyCommentsRegex, "");
+	}
+	
+	public static void Write(String line) throws IOException 
+	{ 
+		try
+		{    
+	        PrintWriter printer = new PrintWriter("SourceCode.txt");
+	        printer.append(line);
+	        printer.flush();
+	        printer.close();
+
+        }
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}	
+	}
 
 	public static void printMap(HashMap<String, Integer> m)
 	{
@@ -81,7 +135,7 @@ public class La {
 	}
 	
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 // TODO Auto-generated method stub
 		new La("textfile.txt");
 	}
