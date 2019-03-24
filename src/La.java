@@ -27,7 +27,7 @@ public class La {
 			"transient", "try", "void", "volatile", "while", "false", "true", "null", "printf" };
 	
 	HashMap<String, Integer> keywordsTable = new HashMap<>();
-	HashMap<String, Integer> otherWords = new HashMap<>();
+	//HashMap<String, Integer> otherWords = new HashMap<>();
 
 	public La(String fileName) throws IOException
 	{
@@ -85,8 +85,6 @@ public class La {
 				keywordsTable.put(c, keywordsTable.get(c)+1);
 				}
 			//String[] lineparts = line.split(" ");
-			
-
 //			for (String x : lineparts) {
 //					
 //			if(keywordsTable.containsKey(x))
@@ -101,7 +99,7 @@ public class La {
 		System.out.println("Keywords:");
 		printMap(keywordsTable);
 		System.out.println();
-		System.out.println("Other Words:");
+		//System.out.println("Other Words:");
 		//printMap(otherWords);	
 	}
 	
