@@ -1,0 +1,4 @@
+ public class xxxx {
+    int xyz ;
+    xyz = 0 ;
+}
